@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import trunghq.trunghq.listItem.FriendsItem;
+import trunghq.trunghq.item.FriendsItem;
 import trunghq.trunghq.R;
 
 /**
@@ -18,13 +18,13 @@ import trunghq.trunghq.R;
  */
 public class CustomFriendsListViewAdapter extends ArrayAdapter<FriendsItem> {
 
-    private ArrayList<FriendsItem> mFriendsListItems;
+    private ArrayList<FriendsItem> mArrFriendsItems;
     private Activity mActivity;
 
-    public CustomFriendsListViewAdapter(Activity activity, ArrayList<FriendsItem> friendsListItems) {
-        super(activity, R.layout.friend_list_item_layout, friendsListItems);
+    public CustomFriendsListViewAdapter(Activity activity, ArrayList<FriendsItem> arrFriendsItems) {
+        super(activity, R.layout.friend_list_item_layout, arrFriendsItems);
         this.mActivity = activity;
-        this.mFriendsListItems = friendsListItems;
+        this.mArrFriendsItems = arrFriendsItems;
     }
 
     @Override
@@ -38,15 +38,15 @@ public class CustomFriendsListViewAdapter extends ArrayAdapter<FriendsItem> {
 
         // avatar
         ImageView mImageViewClassListItem = (ImageView) view.findViewById(R.id.imageViewFriendsListItem);
-        mImageViewClassListItem.setImageBitmap(mFriendsListItems.get(position).getBitmap());
+        mImageViewClassListItem.setImageBitmap(mArrFriendsItems.get(position).getBitmap());
 
         // name
         TextView mTextViewFriendName = (TextView) view.findViewById(R.id.textViewFriendName);
-        mTextViewFriendName.setText(mFriendsListItems.get(position).getName());
+        mTextViewFriendName.setText(mArrFriendsItems.get(position).getName());
 
         // percent
         TextView mTextViewFriendPercent = (TextView) view.findViewById(R.id.textViewFriendPercent);
-        mTextViewFriendPercent.setText(mFriendsListItems.get(position).getPercent() + "%");
+        mTextViewFriendPercent.setText(mArrFriendsItems.get(position).getPercent() + "%");
 
 
         return view;

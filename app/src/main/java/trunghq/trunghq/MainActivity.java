@@ -1,10 +1,17 @@
 package trunghq.trunghq;
 
+import android.database.Cursor;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+
+import trunghq.trunghq.database.DBHandler;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,6 +23,10 @@ public class MainActivity extends AppCompatActivity {
         SlidingTabsFragment fragment = new SlidingTabsFragment();
         fmTrans.replace(R.id.fragment_content, fragment);
         fmTrans.commit();
+        DBHandler dbHandler = new DBHandler(this);
+        for (int i = 0; i < 20; i++) {
+            dbHandler.insertClassPercent(new Random().nextInt((100) + 1));
+        }
     }
 
     @Override

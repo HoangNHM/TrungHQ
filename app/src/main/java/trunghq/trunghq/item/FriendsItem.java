@@ -1,4 +1,4 @@
-package trunghq.trunghq.listItem;
+package trunghq.trunghq.item;
 
 import android.graphics.Bitmap;
 

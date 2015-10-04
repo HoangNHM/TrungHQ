@@ -1,7 +1,6 @@
 package trunghq.trunghq;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,7 +11,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import trunghq.trunghq.listItem.ClassListItem;
+import trunghq.trunghq.database.DBHandler;
+import trunghq.trunghq.item.ClassItem;
 import trunghq.trunghq.custom.CustomClassListViewAdapter;
 
 
@@ -95,19 +95,35 @@ public class ClassTab extends Fragment implements CustomClassListViewAdapter.OnF
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-// add list view
+        ArrayList<Integer> arrPercent = new ArrayList<Integer>();
+        // Database retrieve
+        DBHandler db = new DBHandler(getContext());
+        Cursor cursor = db.getData(DBHandler.CLASS_TABLE_NAME, 0);
+        if (cursor.moveToFirst()) {
+            do {
+                // get  the  data into array,or class variable
+                arrPercent.add(cursor.getInt(cursor.getColumnIndex(DBHandler.CLASS_COLUMN_PERCENT)));
+            } while (cursor.moveToNext());
+        }
+        db.close();
+
+        // add list view
         ListView listView = (ListView) view.findViewById(R.id.listViewClass);
-        // ArrayList ClassListItem
-        ArrayList<ClassListItem> arr = new ArrayList<ClassListItem>();
-        Bitmap bitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.image);
-        arr.add(new ClassListItem(bitmap, "6"));
-        arr.add(new ClassListItem(bitmap, "7"));
-        arr.add(new ClassListItem(bitmap, "8"));
-        arr.add(new ClassListItem(bitmap, "9"));
-        arr.add(new ClassListItem(bitmap, "10"));
+        // ArrayList ClassItem
+        ArrayList<ClassItem> arr = new ArrayList<ClassItem>();
+        arr.add(new ClassItem("Class 1", arrPercent.get(1), new int[]{10, 20, 30, 49, 59, 67, 78, 88, 99, 0, 18, 25, 36, 49, 50, 69}));
+        arr.add(new ClassItem("Class 2", arrPercent.get(2), new int[]{60, 30, 80}));
+        arr.add(new ClassItem("Class 3", arrPercent.get(3), new int[]{45, 27, 12}));
+        arr.add(new ClassItem("Class 4", arrPercent.get(4), new int[]{87, 20, 30}));
+        arr.add(new ClassItem("Class 5", arrPercent.get(5), new int[]{10, 54, 30, 64, 81, 108}));
+        arr.add(new ClassItem("Class 6", arrPercent.get(6), new int[]{10, 20, 30}));
+        arr.add(new ClassItem("Class 7", arrPercent.get(7), new int[]{10, 65, 30, 99, 77, 50}));
+        arr.add(new ClassItem("Class 8", arrPercent.get(8), new int[]{10, 12, 30}));
+        arr.add(new ClassItem("Class 9", arrPercent.get(9), new int[]{98, 20, 87}));
         // adapter
-        CustomClassListViewAdapter adapter = new CustomClassListViewAdapter(getActivity(), ClassTab.this, arr);
+        CustomClassListViewAdapter adapter = new CustomClassListViewAdapter(getActivity(), getFragmentManager(), ClassTab.this, arr);
         listView.setAdapter(adapter);
+        listView.invalidate();
     }
 
 //    dùng để callback to parent

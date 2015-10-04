@@ -15,7 +15,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import trunghq.trunghq.custom.CustomFriendsListViewAdapter;
-import trunghq.trunghq.listItem.FriendsItem;
+import trunghq.trunghq.item.FriendsItem;
 
 
 /**
@@ -82,7 +82,7 @@ public class FriendsTab extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         // add list view
         ListView listView = (ListView) view.findViewById(R.id.listViewFriends);
-        // ArrayList ClassListItem
+        // ArrayList ClassItem
         ArrayList<FriendsItem> arr = new ArrayList<FriendsItem>();
         Bitmap bitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.image);
         arr.add(new FriendsItem(bitmap, "trung huynh", "69"));
