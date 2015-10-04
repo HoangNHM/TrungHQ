@@ -1,20 +1,18 @@
 package trunghq.trunghq.custom;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.HorizontalBarChart;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -24,72 +22,35 @@ import java.util.ArrayList;
 import trunghq.trunghq.R;
 
 /**
- * Created by vantuegia on 10/3/2015.
+ * Created by vantuegia on 10/4/2015.
  */
-public class BarChartDlg extends DialogFragment {
+public class HorizontalBarChartDlg extends DialogFragment{
 
+    private HorizontalBarChart mChart;
     private int[] mYVals;
     private String mChartName;
 
-    public static BarChartDlg newInstance(int[] yVals, String chartName) {
+    public static HorizontalBarChartDlg newInstance(int[] yVals, String chartName) {
         Log.d("NOTICEE", "newInstance");
-        BarChartDlg fm = new BarChartDlg();
+        HorizontalBarChartDlg fm = new HorizontalBarChartDlg();
         fm.mYVals = yVals;
         fm.mChartName = chartName;
         return fm;
     }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.d("NOTICEE", "onCreate");
-    }
-
-    public BarChartDlg() {
-        super();
-        Log.d("NOTICEE", "BarChartDlg");
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        Log.d("NOTICEE", "onAttach");
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d("NOTICEE", "onCreateView");
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        Log.d("NOTICEE", "onActivityCreated");
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        Log.d("NOTICEE", "onViewCreated");
-
-    }
-
     private void setData(BarChart barChart, int[] arr) {
 
         ArrayList<String> xVals = new ArrayList<String>();
         int count = arr.length;
-        for (int i = 0; i < count; i++) {
-            xVals.add("X" + i);
+        // draw backward
+        for (int i = count; i > 0; i--) {
+            xVals.add(i + "");
         }
 
         ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
 
+        // draw backward
         for (int i = 0; i < count; i++) {
-//            float mult = (range + 1);
-//            float val = (float) (Math.random() * mult);
-            yVals1.add(new BarEntry(arr[i], i));
+            yVals1.add(new BarEntry(arr[count - 1 - i], i));
         }
 
         BarDataSet set1 = new BarDataSet(yVals1, "DataSet");
@@ -104,6 +65,9 @@ public class BarChartDlg extends DialogFragment {
         data.setValueTextSize(10f);
 //        data.setValueTypeface(mTf);
 
+        // set chart.height
+        barChart.getLayoutParams().height = 100 * count;
+
         barChart.setData(data);
     }
     @NonNull
@@ -113,45 +77,48 @@ public class BarChartDlg extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         // Get the layout inflater
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.bar_chart_dlg, null);
+        View view = inflater.inflate(R.layout.hor_bar_chart_dlg, null);
         // Class name
-        TextView tvChartName = (TextView) view.findViewById(R.id.tvChartName);
-        if (null == mChartName) mChartName = "";
-        tvChartName.setText(mChartName);
+//        TextView tvChartName = (TextView) view.findViewById(R.id.tvChartName);
+//        if (null == mChartName) mChartName = "";
+//        tvChartName.setText(mChartName);
         // Bar chart
-        BarChart barChart = (BarChart) view.findViewById(R.id.barChart);
-        barChart.getLegend().setEnabled(false);
+        HorizontalBarChart horBarChart = (HorizontalBarChart) view.findViewById(R.id.horBarChart);
+        horBarChart.getLegend().setEnabled(false);
         // set max value 100, for display percent
-        barChart.getAxisLeft().setAxisMaxValue(108f);
-        barChart.getAxisRight().setAxisMaxValue(108f);
-//        barChart.setOnChartValueSelectedListener(this);
-        barChart.animateXY(2000, 2000);
+        horBarChart.getAxisLeft().setAxisMaxValue(108f);
+        horBarChart.getAxisRight().setAxisMaxValue(108f);
+//        horBarChart.setOnChartValueSelectedListener(this);
+        horBarChart.animateY(2000);
 
-        barChart.setDrawBarShadow(false);
-        barChart.setDrawValueAboveBar(true);
+        XAxis xl = horBarChart.getXAxis();
+        xl.setPosition(XAxis.XAxisPosition.BOTTOM);
 
-        barChart.setDescription("");
+        horBarChart.setDrawBarShadow(false);
+        horBarChart.setDrawValueAboveBar(true);
+
+        horBarChart.setDescription("");
 
         // if more than 60 entries are displayed in the chart, no values will be
         // drawn
-        barChart.setMaxVisibleValueCount(60);
+        horBarChart.setMaxVisibleValueCount(60);
 
         // scaling can now only be done on x- and y-axis separately
-        barChart.setPinchZoom(false);
+        horBarChart.setPinchZoom(false);
 
         // draw shadows for each bar that show the maximum value
-        // barChart.setDrawBarShadow(true);
+        // horBarChart.setDrawBarShadow(true);
 
-        // barChart.setDrawXLabels(false);
+        // horBarChart.setDrawXLabels(false);
 
-        barChart.setDrawGridBackground(false);
+        horBarChart.setDrawGridBackground(false);
 
-        setData(barChart, mYVals);
+        setData(horBarChart, mYVals);
 
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
         builder.setView(view);
-                // Add action buttons
+        // Add action buttons
 //                .setPositiveButton(R.string.signin, new DialogInterface.OnClickListener() {
 //                    @Override
 //                    public void onClick(DialogInterface dialog, int id) {

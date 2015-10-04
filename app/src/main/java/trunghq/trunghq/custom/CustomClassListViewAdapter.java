@@ -21,8 +21,8 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import java.util.ArrayList;
 
 import trunghq.trunghq.ClassTab;
-import trunghq.trunghq.item.ClassItem;
 import trunghq.trunghq.R;
+import trunghq.trunghq.item.ClassItem;
 
 /**
  * Created by vantuegia on 10/1/2015.
@@ -79,8 +79,14 @@ public class CustomClassListViewAdapter extends ArrayAdapter<ClassItem> {
                 itemInteractionListener.onFriendsItemInteractionListener(v.getId(), position);
 
                 // Show Bar chart
-                DialogFragment dialog1 = BarChartDlg.newInstance(mArrClassItems.get(position).getYVals(), mArrClassItems.get(position).getClassName());
-                dialog1.show(mFragmentManager, "BarChartDlg");
+//                DialogFragment horBarChartDlg = BarChartDlg.newInstance(mArrClassItems.get(position).getYVals(), mArrClassItems.get(position).getClassName());
+//                horBarChartDlg.show(mFragmentManager, "BarChartDlg");
+                DialogFragment horBarChartDlg = HorizontalBarChartDlg.newInstance(mArrClassItems.get(position).getYVals(), mArrClassItems.get(position).getClassName());
+                horBarChartDlg.show(mFragmentManager, "HorBarChartDlg");
+//                FragmentTransaction transaction = mFragmentManager.beginTransaction();
+//                transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+//                transaction.add(android.R.id.content, horBarChartDlg).commit();
+
             }
         });
 

@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import trunghq.trunghq.item.FriendsItem;
 import trunghq.trunghq.R;
+import trunghq.trunghq.item.FriendsItem;
 
 /**
  * Created by vantuegia on 10/1/2015.
