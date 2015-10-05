@@ -42,7 +42,7 @@ public class HorizontalBarChartDlg extends DialogFragment{
         ArrayList<String> xVals = new ArrayList<String>();
         int count = arr.length;
         // draw backward
-        for (int i = count; i > 0; i--) {
+        for (int i = 0; i < count; i++) {
             xVals.add(i + "");
         }
 
@@ -50,7 +50,8 @@ public class HorizontalBarChartDlg extends DialogFragment{
 
         // draw backward
         for (int i = 0; i < count; i++) {
-            yVals1.add(new BarEntry(arr[count - 1 - i], i));
+//            yVals1.add(new BarEntry(arr[count - 1 - i], i));
+            yVals1.add(new BarEntry(arr[i], i));
         }
 
         BarDataSet set1 = new BarDataSet(yVals1, "DataSet");

@@ -1,5 +1,6 @@
 package trunghq.trunghq;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -79,13 +80,19 @@ public class ClassTab extends Fragment implements CustomClassListViewAdapter.OnF
 
     // btn Study & View More click listener
     @Override
-    public void onFriendsItemInteractionListener(int btnId, int position) {
+    public void onFriendsItemInteractionListener(int btnId, int position, String className) {
         switch (btnId) {
             case R.id.btnStudyClassItem:
                 Toast.makeText(getContext(), "Study, item: " + position, Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btnViewMoreClassItem:
+                // call ViewMoreActivity
                 Toast.makeText(getContext(), "View More, item: " + position, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getContext(), ViewMoreActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("ClassName", className);
+                intent.putExtra("ClassPackage", bundle);
+                startActivity(intent);
                 break;
             default:
                 break;

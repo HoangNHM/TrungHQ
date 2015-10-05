@@ -1,11 +1,15 @@
 package trunghq.trunghq;
 
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ImageSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +24,11 @@ public class SlidingTabsFragment extends Fragment {
     private SlidingTabLayout mSlidingTabLayout;
     private ViewPager mViewPager;
     private List<SamplePagerItem> mTabs = new ArrayList<SamplePagerItem>();
-
+    private int[] imageResId = {
+            R.drawable.image,
+            R.drawable.image,
+            R.drawable.image
+    };
     public SlidingTabsFragment() {
         // Required empty public constructor
     }
@@ -56,6 +64,9 @@ public class SlidingTabsFragment extends Fragment {
         mViewPager.setAdapter( new SlidingFragmentPagerAdapter(getChildFragmentManager()));
 
         mSlidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.sliding_tabs);
+        // set custom tab, icon not text
+        mSlidingTabLayout.setCustomTabView(R.layout.custom_tab, 0);
+
         mSlidingTabLayout.setViewPager(mViewPager);
         mSlidingTabLayout.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
             @Override
@@ -104,7 +115,14 @@ public class SlidingTabsFragment extends Fragment {
          */
         @Override
         public CharSequence getPageTitle(int position) {
-            return mTabs.get(position).getTitle();
+            // set custom tab, icon not text
+//            return mTabs.get(position).getTitle();
+            Drawable image = getResources().getDrawable(imageResId[position]);
+            image.setBounds(0, 0, image.getIntrinsicWidth(), image.getIntrinsicHeight());
+            SpannableString sb = new SpannableString(" ");
+            ImageSpan imageSpan = new ImageSpan(image, ImageSpan.ALIGN_BOTTOM);
+            sb.setSpan(imageSpan, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            return sb;
         }
         // END_INCLUDE (pageradapter_getpagetitle)
 

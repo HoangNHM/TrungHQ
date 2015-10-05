@@ -67,7 +67,7 @@ public class CustomClassListViewAdapter extends ArrayAdapter<ClassItem> {
         mBtnStudyClassItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                itemInteractionListener.onFriendsItemInteractionListener(v.getId(), position);
+                itemInteractionListener.onFriendsItemInteractionListener(v.getId(), position, mArrClassItems.get(position).getClassName());
             }
         });
 
@@ -76,16 +76,13 @@ public class CustomClassListViewAdapter extends ArrayAdapter<ClassItem> {
         mBtnViewMoreClassItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                itemInteractionListener.onFriendsItemInteractionListener(v.getId(), position);
-
+                itemInteractionListener.onFriendsItemInteractionListener(v.getId(), position, mArrClassItems.get(position).getClassName());
+                // Don't use dlg, use activity instead
                 // Show Bar chart
 //                DialogFragment horBarChartDlg = BarChartDlg.newInstance(mArrClassItems.get(position).getYVals(), mArrClassItems.get(position).getClassName());
 //                horBarChartDlg.show(mFragmentManager, "BarChartDlg");
-                DialogFragment horBarChartDlg = HorizontalBarChartDlg.newInstance(mArrClassItems.get(position).getYVals(), mArrClassItems.get(position).getClassName());
-                horBarChartDlg.show(mFragmentManager, "HorBarChartDlg");
-//                FragmentTransaction transaction = mFragmentManager.beginTransaction();
-//                transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-//                transaction.add(android.R.id.content, horBarChartDlg).commit();
+//                DialogFragment horBarChartDlg = HorizontalBarChartDlg.newInstance(mArrClassItems.get(position).getYVals(), mArrClassItems.get(position).getClassName());
+//                horBarChartDlg.show(mFragmentManager, "HorBarChartDlg");
 
             }
         });
@@ -190,6 +187,6 @@ public class CustomClassListViewAdapter extends ArrayAdapter<ClassItem> {
      */
     public interface OnFriendsItemInteractionListener {
         // TODO: Update argument type and name
-        public void onFriendsItemInteractionListener(int btnId, int position);
+        public void onFriendsItemInteractionListener(int btnId, int position, String className);
     }
 }
