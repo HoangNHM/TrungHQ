@@ -2,10 +2,12 @@ package trunghq.trunghq;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ScrollView;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
@@ -15,35 +17,45 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class ViewMoreActivity extends AppCompatActivity {
 
     private HorizontalBarChart mChart;
-    private int[] mYVals = {10, 20, 30, 49, 59, 67, 78, 88, 99, 0, 18, 25, 36, 49, 50, 69};
-    private String mChartName = "null";
+    private String mChartName;
+    private ScrollView mScrollViewChart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_more);
+        mScrollViewChart = (ScrollView) findViewById(R.id.scrollViewChart);
+
         mChart = (HorizontalBarChart) findViewById(R.id.horBarChart);
-        //lấy intent gọi Activity này
+        // get caller intent
         Intent callerIntent = getIntent();
-        //có intent rồi thì lấy Bundle dựa vào MyPackage
+        // get bundle from intent
         Bundle packageFromCaller = callerIntent.getBundleExtra("ClassPackage");
-        //Có Bundle rồi thì lấy các thông số dựa vào soa, sob
+        // get bundle info
         mChartName = packageFromCaller.getString("ClassName");
         setupChart(mChart);
+        mScrollViewChart.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mScrollViewChart.smoothScrollTo(0, mScrollViewChart.getBottom());
+            }
+        }, 1000);
     }
 
     private void setupChart(HorizontalBarChart horBarChart) {
         horBarChart.getLegend().setEnabled(false);
-        // set max value 100, for display percent
+        // set max value 108, to see 100% display percent
         horBarChart.getAxisLeft().setAxisMaxValue(108f);
         horBarChart.getAxisRight().setAxisMaxValue(108f);
 //        horBarChart.setOnChartValueSelectedListener(this);
         horBarChart.animateY(2000);
 
+        // draw bar name at bottom
         XAxis xl = horBarChart.getXAxis();
         xl.setPosition(XAxis.XAxisPosition.BOTTOM);
 
@@ -65,6 +77,13 @@ public class ViewMoreActivity extends AppCompatActivity {
         // horBarChart.setDrawXLabels(false);
 
         horBarChart.setDrawGridBackground(false);
+
+        // Random YVals
+        int count = new Random().nextInt((20) + 1);
+        int[] mYVals = new int[count];
+        for (int i = 0; i < count; i++) {
+            mYVals[i] = new Random().nextInt((100) + 1);
+        }
 
         setData(horBarChart, mYVals);
     }

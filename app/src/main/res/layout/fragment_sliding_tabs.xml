@@ -5,7 +5,7 @@
     tools:context="trunghq.trunghq.SlidingTabsFragment"
     android:orientation="vertical">
 
-    <trunghq.trunghq.slidingTab.SlidingTabLayout
+    <trunghq.trunghq.widgets.SlidingTabLayout
         android:id="@+id/sliding_tabs"
         android:layout_gravity="center_horizontal"
         android:layout_width="match_parent"

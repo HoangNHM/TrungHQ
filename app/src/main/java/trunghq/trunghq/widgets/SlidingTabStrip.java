@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package trunghq.trunghq.slidingTab;
+package trunghq.trunghq.widgets;
 
 import android.R;
 import android.content.Context;

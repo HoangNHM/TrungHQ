@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import trunghq.trunghq.slidingTab.SlidingTabLayout;
+import trunghq.trunghq.widgets.SlidingTabLayout;
 
 public class SlidingTabsFragment extends Fragment {
 

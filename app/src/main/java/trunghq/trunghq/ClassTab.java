@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -102,14 +103,15 @@ public class ClassTab extends Fragment implements CustomClassListViewAdapter.OnF
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        ArrayList<Integer> arrPercent = new ArrayList<Integer>();
+        // Percent of Class, read from database
+        ArrayList<Integer> arrClassPercent = new ArrayList<Integer>();
         // Database retrieve
         DBHandler db = new DBHandler(getContext());
         Cursor cursor = db.getData(DBHandler.CLASS_TABLE_NAME, 0);
         if (cursor.moveToFirst()) {
             do {
                 // get  the  data into array,or class variable
-                arrPercent.add(cursor.getInt(cursor.getColumnIndex(DBHandler.CLASS_COLUMN_PERCENT)));
+                arrClassPercent.add(cursor.getInt(cursor.getColumnIndex(DBHandler.CLASS_COLUMN_PERCENT)));
             } while (cursor.moveToNext());
         }
         db.close();
@@ -118,19 +120,18 @@ public class ClassTab extends Fragment implements CustomClassListViewAdapter.OnF
         ListView listView = (ListView) view.findViewById(R.id.listViewClass);
         // ArrayList ClassItem
         ArrayList<ClassItem> arr = new ArrayList<ClassItem>();
-        arr.add(new ClassItem("Class 1", arrPercent.get(1), new int[]{10, 20, 30, 49, 59, 67, 78, 88, 99, 0, 18, 25, 36, 49, 50, 69}));
-        arr.add(new ClassItem("Class 2", arrPercent.get(2), new int[]{60}));
-        arr.add(new ClassItem("Class 3", arrPercent.get(3), new int[]{0}));
-        arr.add(new ClassItem("Class 4", arrPercent.get(4), new int[]{}));
-        arr.add(new ClassItem("Class 5", arrPercent.get(5), new int[]{10, 54, 30, 64, 81, 108}));
-        arr.add(new ClassItem("Class 6", arrPercent.get(6), new int[]{10, 20, 30}));
-        arr.add(new ClassItem("Class 7", arrPercent.get(7), new int[]{10, 65, 30, 99, 77, 50}));
-        arr.add(new ClassItem("Class 8", arrPercent.get(8), new int[]{10, 12, 30}));
-        arr.add(new ClassItem("Class 9", arrPercent.get(9), new int[]{98, 20, 87}));
+        // unit + percent of that unit
+        SparseIntArray unitPercent = new SparseIntArray();
+        unitPercent.append(2, 100);
+        unitPercent.append(3, 30);
+        arr.add(new ClassItem("Class 1", arrClassPercent.get(0), unitPercent));
+        arr.add(new ClassItem("Class 2", arrClassPercent.get(1), unitPercent));
+        arr.add(new ClassItem("Class 3", arrClassPercent.get(2), unitPercent));
+        arr.add(new ClassItem("Class 4", arrClassPercent.get(3), unitPercent));
+        arr.add(new ClassItem("Class 5", arrClassPercent.get(4), unitPercent));
         // adapter
         CustomClassListViewAdapter adapter = new CustomClassListViewAdapter(getActivity(), getFragmentManager(), ClassTab.this, arr);
         listView.setAdapter(adapter);
-        listView.invalidate();
     }
 
 //    dùng để callback to parent

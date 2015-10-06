@@ -2,7 +2,6 @@ package trunghq.trunghq.custom;
 
 import android.app.Activity;
 import android.graphics.Color;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,7 +55,7 @@ public class CustomClassListViewAdapter extends ArrayAdapter<ClassItem> {
         // chart
         PieChart pieChart = (PieChart) view.findViewById(R.id.pieChart);
         // set percent
-        setPieChart(pieChart, mArrClassItems.get(position).getPercent());
+        setPieChart(pieChart, mArrClassItems.get(position).getClassPercent());
 
         // class 1, class 2, ...
         TextView mTextViewClassNumber = (TextView) view.findViewById(R.id.textViewClassNumber);
@@ -171,8 +170,6 @@ public class CustomClassListViewAdapter extends ArrayAdapter<ClassItem> {
 
         // undo all highlights
         pieChart.highlightValues(null);
-
-//        pieChart.invalidate();
     }
 
     /**
